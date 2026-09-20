@@ -1,0 +1,35 @@
+flowchart TD
+    U["User message\n(+ recent session turns)"] --> RET
+
+    subgraph KB["Offline: Knowledge Base"]
+        F["faqs.md\n15 entries"] --> PARSE["corpus.py\nparse + normalize"]
+        P["policies.md\n10 entries"] --> PARSE
+        T["tickets.md\n15 entries"] --> PARSE
+        PARSE --> CORPUS[("corpus.json\n40 records")]
+    end
+
+    CORPUS --> IDX["TF-IDF index\n(built once per process)"]
+    IDX --> RET["Retriever.search()\ntop-4 by cosine sim\n+ authority boost\n+ policy-coverage rule"]
+
+    RET --> GATE{"Gate.decide()\nrule-based, no LLM call"}
+
+    GATE -- "sensitive intent\n(fraud, chargeback, legal,\ncredentials, unauthorized charge)" --> ESC1["Escalate: sensitive case\nsupport-safe fields only"]
+    GATE -- "top score < 0.12" --> ESC2["Escalate: low confidence"]
+    GATE -- "stale doc + user flags conflict" --> ESC3["Escalate: stale/conflicting policy"]
+    GATE -- "confident + safe" --> PROMPT["Build prompt:\nsystem rules + labeled\n<context id=X> blocks\n+ last 6 session turns"]
+
+    PROMPT --> LLM["OpenRouter\nChat Completions API\n(openrouter/free)"]
+    LLM -- "HTTP error / timeout" --> ESC4["Fail visibly ->\nescalate, never fabricate"]
+    LLM -- "200 OK" --> ANSWER["Answer with inline\nsource-ID citations"]
+
+    ESC1 --> OUT["Response to user"]
+    ESC2 --> OUT
+    ESC3 --> OUT
+    ESC4 --> OUT
+    ANSWER --> OUT
+
+    OUT --> SESS[("Session state\n.state/&lt;id&gt;.json\nlast 12 turns")]
+    SESS -.->|"next turn"| U
+
+    OUT --> UI1["CLI (app.py)"]
+    OUT --> UI2["Streamlit UI\n(streamlit_app.py)"]

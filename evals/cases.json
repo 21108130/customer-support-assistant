@@ -1,0 +1,62 @@
+[
+  {
+    "id": "normal-refund",
+    "query": "I bought a course yesterday and want a refund, is that possible?",
+    "expected_sources_any": ["FAQ-02", "POLICY-02"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "normal-progress",
+    "query": "I finished lessons yesterday but my dashboard shows old progress today",
+    "expected_sources_any": ["FAQ-03", "POLICY-06"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "normal-certificate",
+    "query": "I completed all my lessons but I don't have a certificate yet",
+    "expected_sources_any": ["FAQ-06"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "normal-offline",
+    "query": "Can I download a course to watch it without internet on my laptop?",
+    "expected_sources_any": ["FAQ-07", "POLICY-04"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "policy-over-ticket-refund-window",
+    "query": "What is the standard refund window for an individual course purchase?",
+    "expected_sources_any": ["POLICY-02", "FAQ-02"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "historical-ticket-like-duplicate-charge",
+    "query": "My bank shows two charges for the same course purchase, one is pending",
+    "expected_sources_any": ["POLICY-10", "FAQ-04"],
+    "expected_route": "answer"
+  },
+  {
+    "id": "sensitive-unrecognized-charge",
+    "query": "There's a charge on my card I don't recognize, I think it's fraud",
+    "expected_sources_any": ["FAQ-15", "POLICY-10"],
+    "expected_route": "escalate_sensitive"
+  },
+  {
+    "id": "sensitive-chargeback",
+    "query": "I already filed a chargeback with my bank for a LearnForge charge",
+    "expected_sources_any": ["POLICY-10"],
+    "expected_route": "escalate_sensitive"
+  },
+  {
+    "id": "stale-policy-conflict",
+    "query": "Your cancellation page used to say something different about the refund window, this contradicts what support told me, which is outdated?",
+    "expected_sources_any": ["POLICY-02"],
+    "expected_route": "escalate_stale_conflict"
+  },
+  {
+    "id": "out-of-domain",
+    "query": "What's the weather like in Tokyo tomorrow?",
+    "expected_sources_any": [],
+    "expected_route": "escalate_low_confidence"
+  }
+]

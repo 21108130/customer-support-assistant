@@ -1,0 +1,26 @@
+erDiagram
+    RECORD {
+        string id PK "e.g. POLICY-02, FAQ-06, TICKET-11"
+        string title "short human-readable title"
+        string source_type "policy | faq | ticket"
+        text text "the chunk body sent to the LLM as evidence"
+        string reviewed "policy only: last reviewed/effective date, nullable"
+        string status "ticket only: resolution status, nullable"
+        bool has_deprecated_note "true if the text itself flags superseded wording"
+        string_array tags "lightweight keyword tags: refund, billing, accessibility..."
+    }
+
+    SESSION {
+        string session_id PK
+        json history "ordered [{role, content}], last 12 turns persisted"
+    }
+
+    EVAL_CASE {
+        string id PK
+        string query
+        string_array expected_sources_any
+        string expected_route "answer | escalate_low_confidence | escalate_sensitive | escalate_stale_conflict"
+    }
+
+    RECORD ||--o{ SESSION : "cited in (by id, inline in answer text)"
+    EVAL_CASE ||--|{ RECORD : "asserts recall against"
