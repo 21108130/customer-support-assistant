@@ -25,8 +25,8 @@ Requires Python 3.10+ and a free [OpenRouter API key](https://openrouter.ai/sett
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env        # then paste your OPENROUTER_API_KEY into .env
-python3 src/corpus.py       # builds data/corpus.json from data/raw/*.md
+cp .env.example .env        
+python3 src/corpus.py       
 
 # CLI
 python3 app.py --session alice "I bought a course yesterday; can I get a refund?"
@@ -44,7 +44,7 @@ button plus example prompts in the sidebar.
 Run the deterministic offline regression eval (no API key needed):
 
 ```bash
-python3 evals/run_eval.py
+python evals/run_eval.py
 ```
 
 > **Security note:** `.env` is gitignored — never commit your real key. If a
