@@ -14,10 +14,7 @@ escalates to a human whenever it isn't confident — rather than guessing.
 - **Interfaces:** a CLI (`app.py`) and a Streamlit web UI (`streamlit_app.py`),
   both built on the same orchestration core in `src/`.
 
-The design is optimized for a ~4-6 hour take-home: a focused knowledge-base
-entry is one chunk, every response carries labeled evidence, historical
-tickets are precedent (never policy), and unsafe/uncertain cases are
-escalated **before** the model is ever called.
+
 
 ## Quickstart
 
