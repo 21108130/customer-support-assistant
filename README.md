@@ -47,11 +47,7 @@ Run the deterministic offline regression eval (no API key needed):
 python evals/run_eval.py
 ```
 
-> **Security note:** `.env` is gitignored — never commit your real key. If a
-> key has ever been pasted anywhere outside your own `.env` (a chat, a ticket,
-> a shared doc), treat it as compromised and rotate it at
-> [openrouter.ai/settings/keys](https://openrouter.ai/settings/keys); OpenRouter
-> keys are billing-linked even on the free tier.
+
 
 ## Architecture
 
@@ -75,9 +71,7 @@ flowchart TD
 
 ## Data schema
 
-See **[`docs/DATA_SCHEMA.md`](docs/DATA_SCHEMA.md)** for the full field-by-field
-breakdown, real examples, and the note on what changes (and what doesn't) if
-this moves to a vector DB. Summary:
+
 
 | Field | Example | Purpose |
 |---|---|---|
